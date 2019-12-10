@@ -1,5 +1,5 @@
-name: flutter_stateless
-description: A new Flutter project.
+name: flutter_create_persistence
+description: A new Flutter project implementing persistent data.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -24,8 +24,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
 
-  # Provider for stateless styff
+  # Provider for stateless UI stuff
   provider: ^3.2.0
+
+  # For data persistence
+  shared_preferences: ^0.5.4+8
 
 dev_dependencies:
   flutter_test:

@@ -50,8 +50,6 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final counterState = Provider.of<CounterState>(context);
-    final _counter = counterState.value;
-    void _incrementCounter() => counterState.increment();
 
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -86,20 +84,49 @@ class MyHomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              counterState.hasError
+              ? ''
+              : counterState.isWaiting
+                ? 'Please wait...'
+                : 'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
+            counterState.hasError
+            ? Text("Oops, something's wrong!")
+            : counterState.isWaiting
+              ? CircularProgressIndicator()
+              : Text(
+                '${counterState.value}',
+                style: Theme.of(context).textTheme.display1,
+              )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          FloatingActionButton(
+            child: Icon(Icons.undo),
+            // colours indicate when button is inactive (counterstate is waiting)
+            backgroundColor: counterState.isWaiting
+            ? Theme.of(context).buttonColor
+            : Theme.of(context).floatingActionButtonTheme.backgroundColor,
+            // the button action is disabled when counterState is waiting
+            onPressed: counterState.isWaiting ? null : counterState.reset,
+          ),
+          FloatingActionButton(
+            child: Icon(Icons.add),
+            // colours indicate when the button is inactive
+            backgroundColor: (counterState.isWaiting || counterState.hasError)
+            ? Theme.of(context).buttonColor
+            : Theme.of(context).floatingActionButtonTheme.backgroundColor,
+            // button disabled when counterState waiting
+            onPressed: (counterState.isWaiting || counterState.hasError)
+            ? null : counterState.increment,
+          ),
+        ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButtonLocation:
+      FloatingActionButtonLocation.centerFloat,
     );
   }
 }
