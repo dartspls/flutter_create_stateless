@@ -1,6 +1,7 @@
 # flutter_stateless
 
 A new Flutter project.
+Based on this article: https://medium.com/@eggzotic/local-data-persistence-in-flutter-7f82c54efe5
 
 ## Getting Started
 
